@@ -1,0 +1,27 @@
+.container
+    cursor: none
+    height: 100vh
+    overflow: hidden
+    width: 100%
+    .navigation
+        display: flex
+        height: 100vh
+        &-left
+            width: 50%
+            background-color: red
+        &-right
+            width: 50%
+            background-color: blue
+        &-cursor
+            width: 150px
+            height: 120px
+            position: absolute
+            background-color: black
+            top: -10%
+            left: -5%
+    .container-images
+        position: relative
+        img
+            position: absolute
+            top: 0
+            width: 100%
