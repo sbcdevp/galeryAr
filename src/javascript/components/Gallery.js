@@ -10,10 +10,10 @@ window.gallery.images = {
         this.rightContainer = this.navigation.querySelector('.js-right');
         this.cursor = this.container.querySelector('.js-cursor');
         this.images = this.container.querySelectorAll('.container-images img');
-        this.imageName = this.container.querySelector('.js-image-name')
+        this.imageName = this.container.querySelector('.js-image-name h2')
         this.indexLength = this.images.length;
         this.index = 0;
-        this.images[0].classList.add('active');
+        this.images[0].style.opacity = "1";
         this.initListeners();
 
     },
@@ -21,9 +21,10 @@ window.gallery.images = {
         'use strict';
         this.mouseX = event.pageX;
         this.mouseY = event.pageY;
-        this.animation = new TimelineMax();
-        this.animation.add(
-        TweenMax.to(this.cursor, 1, {x: this.mouseX, y: this.mouseY}));
+        this.cursor.style.transform = 'translate3D(' + this.mouseX + 'px,' + this.mouseY + 'px, 0px)'
+        // this.animation = new TimelineMax();
+        // this.animation.add(
+        // TweenMax.to(this.cursor, 0, {x: this.mouseX, y: this.mouseY}));
     },
     initListeners: function () {
         'use strict';
@@ -58,24 +59,22 @@ window.gallery.images = {
           this.newIndex = 0
         }
         this.images[this.newIndex].getAttribute('data-name');
-        var timeline = new TimelineMax();
+        this.timeline = new TimelineMax();
         if (this.clicked === false) {
             this.clicked = true;
-            this.animation.add(
-            TweenMax.to(this.imageName, 0.2, {y: this.yMove, opacity: 0}))
+            this.timeline.add(
+            TweenMax.to(this.imageName, 0.1, {y: this.yMove, opacity: 0}))
             .add(
             TweenMax.to(this.imageName, 0.1, {y: -this.yMove, opacity: 0, onComplete: this.changeName.bind(this, sens)}))
             .add(
-            TweenMax.to(this.imageName, 0.5, {y: 0, opacity: 1}));
+            TweenMax.to(this.imageName, 0.1, {y: 0, opacity: 1}));
         }
-
-        console.log('cfez');
     },
     changeName: function (sens) {
         'use strict';
         this.clicked = false;
-        this.images[this.index].classList.remove("active");
-        this.images[this.newIndex].classList.add("active");
+        this.images[this.index].style.opacity = "0";
+        this.images[this.newIndex].style.opacity = "1";
         this.index = this.newIndex;
         this.imageName.innerHTML = this.images[this.newIndex].getAttribute('data-name');
         this.nextCursor(sens);
@@ -90,7 +89,7 @@ window.gallery.images = {
         if (indexCursor === this.indexLength) {
           this.nextImage = 0;
         }
-        this.cursor.style.backgroundImage = "url('../images/img_"+ this.nextImage + ".jpg')";
+        this.cursor.style.backgroundImage = "url('images/img_"+ this.nextImage + ".jpg')";
     },
     invoke: function () {
         'use strict';
