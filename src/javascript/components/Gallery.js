@@ -48,8 +48,9 @@ window.gallery.images = {
     },
     displayImages: function (sens) {
         'use strict';
+        console.log(event)
         this.newIndex = sens ? this.index + 1 : this.index - 1;
-        this.yMove = sens ? "20" : '-20'
+        this.yMove = sens ? "20" : '-20';
         if (this.newIndex < 0) {
           this.newIndex = this.indexLength - 1;
         }
@@ -61,7 +62,6 @@ window.gallery.images = {
         var timeline = new TimelineMax();
         if (this.clicked === false) {
             this.clicked = true;
-            console.log('event fired')
             this.animation.add(
             TweenMax.to(this.imageName, 0.2, {y: this.yMove, opacity: 0}))
             .add(
