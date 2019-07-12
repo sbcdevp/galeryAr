@@ -58,7 +58,6 @@ window.gallery.images = {
           this.newIndex = 0
         }
         this.images[this.newIndex].getAttribute('data-name');
-        // console.log(this.images[newIndex].getAttribute('data-name'));
         var timeline = new TimelineMax();
         if (this.clicked === false) {
             this.clicked = true;
