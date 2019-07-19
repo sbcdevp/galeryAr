@@ -1,95 +1,39 @@
 //IMPORTS
+import * as THREE from 'three';
+import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOrientationControls.js';
 window.gallery = window.gallery || {};
 window.gallery.images = {
     init: function () {
         'use strict';
         this.container = document.querySelector('.js-container');
-        this.navigation = this.container.querySelector('.js-navigation');
-        this.nameContainer = this.container.querySelector('.js-names');
-        this.leftContainer = this.navigation.querySelector('.js-left');
-        this.rightContainer = this.navigation.querySelector('.js-right');
-        this.cursor = this.container.querySelector('.js-cursor');
-        this.images = this.container.querySelectorAll('.container-images img');
-        this.imageName = this.container.querySelector('.js-image-name h2')
-        this.indexLength = this.images.length;
-        this.index = 0;
-        this.images[0].style.opacity = "1";
-        this.initListeners();
+        this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1100);
+        this.controls = new DeviceOrientationControls( this.camera );
+		this.scene = new THREE.Scene();
+        this.initGeometry();
+        this.animate();
+    },
+    initGeometry: function () {
+        'use strict';
 
+        this.geometry = new THREE.SphereBufferGeometry( 500, 60, 40 );
+        this.geometry.scale( - 1, 1, 1 );
+        this.material = new THREE.MeshBasicMaterial( {
+					map: new THREE.TextureLoader().load( 'images/img_0.jpg' )
+				} );
+		this.mesh = new THREE.Mesh( this.geometry, this.material );
+		this.helperGeometry = new THREE.BoxBufferGeometry( 100, 100, 100, 4, 4, 4 );
+		this.helperMaterial = new THREE.MeshBasicMaterial( { color: 0xff00ff, wireframe: true } );
+		this.helper = new THREE.Mesh( this.helperGeometry, this.helperMaterial );
+        this.scene.add(this.mesh, this.helper);
+        this.renderer = new THREE.WebGLRenderer( { antialias: true } );
+		this.renderer.setPixelRatio( window.devicePixelRatio );
+		this.renderer.setSize( window.innerWidth, window.innerHeight );
+		this.container.appendChild( this.renderer.domElement );
     },
-    cursorMove: function (event) {
-        'use strict';
-        this.mouseX = event.pageX;
-        this.mouseY = event.pageY;
-        this.cursor.style.transform = 'translate3D(' + this.mouseX + 'px,' + this.mouseY + 'px, 0px)'
-        // this.animation = new TimelineMax();
-        // this.animation.add(
-        // TweenMax.to(this.cursor, 0, {x: this.mouseX, y: this.mouseY}));
-    },
-    initListeners: function () {
-        'use strict';
-        this.container.addEventListener('mousemove', this.cursorMove.bind(this));
-        this.nameContainer.addEventListener('mouseenter', this.nameHover.bind(this));
-        this.nameContainer.addEventListener('mouseleave', this.nameHover.bind(this));
-        this.leftContainer.addEventListener('mousemove', this.nextCursor.bind(this, false));
-        this.leftContainer.addEventListener('click', this.displayImages.bind(this, false));
-        this.rightContainer.addEventListener('mousemove', this.nextCursor.bind(this, true));
-        this.rightContainer.addEventListener('click', this.displayImages.bind(this, true));
-        this.clicked = false;
-    },
-    nameHover: function (event) {
-        'use strict';
-        if (event.type === 'mouseenter') {
-            this.cursor.classList.add('hidden');
-            this.container.style.cursor = '';
-        } else {
-            this.cursor.classList.remove('hidden');
-        }
-
-    },
-    displayImages: function (sens) {
-        'use strict';
-        console.log(event)
-        this.newIndex = sens ? this.index + 1 : this.index - 1;
-        this.yMove = sens ? "20" : '-20';
-        if (this.newIndex < 0) {
-          this.newIndex = this.indexLength - 1;
-        }
-        if (this.newIndex === this.indexLength) {
-          this.newIndex = 0
-        }
-        this.images[this.newIndex].getAttribute('data-name');
-        this.timeline = new TimelineMax();
-        if (this.clicked === false) {
-            this.clicked = true;
-            this.timeline.add(
-            TweenMax.to(this.imageName, 0.1, {y: this.yMove, opacity: 0}))
-            .add(
-            TweenMax.to(this.imageName, 0.1, {y: -this.yMove, opacity: 0, onComplete: this.changeName.bind(this, sens)}))
-            .add(
-            TweenMax.to(this.imageName, 0.1, {y: 0, opacity: 1}));
-        }
-    },
-    changeName: function (sens) {
-        'use strict';
-        this.clicked = false;
-        this.images[this.index].style.opacity = "0";
-        this.images[this.newIndex].style.opacity = "1";
-        this.index = this.newIndex;
-        this.imageName.innerHTML = this.images[this.newIndex].getAttribute('data-name');
-        this.nextCursor(sens);
-    },
-    nextCursor: function (sens) {
-        'use strict';
-        var indexCursor = sens ? this.index + 1 : this.index - 1;
-        this.nextImage = indexCursor;
-        if (indexCursor < 0) {
-          this.nextImage = this.indexLength - 1;
-        }
-        if (indexCursor === this.indexLength) {
-          this.nextImage = 0;
-        }
-        this.cursor.style.backgroundImage = "url('images/img_"+ this.nextImage + ".jpg')";
+    animate: function () {
+        window.requestAnimationFrame(this.animate.bind(this));
+        this.controls.update();
+        this.renderer.render(this.scene, this.camera)
     },
     invoke: function () {
         'use strict';

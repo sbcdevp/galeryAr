@@ -1,73 +1,14 @@
-body
-    overflow: hidden
-    cursor: none
 .container
-    font-family: "Akzidenz"
-    font-weight: bold
-    cursor: none
-    height: 100vh
-    overflow: hidden
     position: relative
-    width: 100%
-    .navigation
-        display: flex
-        height: 100vh
-        width: 100%
-        cursor: none
+    width : 100%
+    height: 100vh
+    border: 5px solid #CCC
+    border-radius: 10px
+    .balle
         position: absolute
-        top: 0
-        left: 0
-        z-index: 2
-        &-left
-            width: 50%
-        &-right
-            width: 50%
-        &-cursor
-            background-size: contain
-            background-repeat: no-repeat
-            width: 150px
-            height: 120px
-            position: absolute
-            pointer-events: none
-            top: -10%
-            cursor: none
-            left: -5%
-            z-index: 3
-            &.hidden
-                display: none
-    .container-images
-        position: absolute
-        left: 50%
-        top: 50%
-        width: 500px
-        cursor: none
-        user-select: none
-        height: 500px
-        transform: translate(-50%, -50%)
-        z-index: 1
-        @media screen and (max-width: 480px)
-            width: 250px
-            height: 250px
-        img
-            opacity: 0
-            width: 100%
-            height: 100%
-            object-fit: contain
-            position: absolute
-    .image-name
-        position: absolute
-        bottom: 20px
-        display: flex
-        width: 100%
-        user-select: none
-        justify-content: center
-    .container-names
-        z-index: 4
-        position: relative
-        user-select: none
-        ul
-            display: flex
-            justify-content: space-around
-            li
-                padding: 20px
-                cursor: pointer
+        top: 90px
+        left: 90px
+        width: 20px
+        height: 20px
+        background: green
+        border-radius: 100%
