@@ -28,7 +28,7 @@
     "acorn-dynamic-import": "^4.0.0",
     "browser-sync": "^2.26.7",
     "gulp-cli": "^2.2.0",
-    "three": "^0.106.2"
+    "three": "^0.125.0"
   },
   "engines": {
     "node": "11.14.0"
